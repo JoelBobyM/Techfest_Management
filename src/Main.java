@@ -1,4 +1,4 @@
-package techfest;
+import techfest.Volunteer;
 
 public class Main
 {
