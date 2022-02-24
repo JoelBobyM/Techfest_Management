@@ -1,9 +1,9 @@
-import techfest.Volunteer;
+import techfest.Login;
 
 public class Main
 {
     public static void main(String[] args)
     {
-        Volunteer v = new Volunteer();
+        Login L = new Login();
     }
 }
