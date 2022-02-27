@@ -25,7 +25,7 @@ public class Searchparticipant
 
        try
        {
-           img = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/search.jpg"));
+           img = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/search1.png"));
            dimg = img.getScaledInstance(400, 300, Image.SCALE_SMOOTH);
            im = new ImageIcon(dimg);
            l2 = new JLabel("",im,JLabel.CENTER);
