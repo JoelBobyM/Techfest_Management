@@ -3,6 +3,7 @@ package techfest;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.*;
 import javax.swing.JTextField;
 import java.awt.*;
 
@@ -24,9 +25,9 @@ public class Searchparticipant
 
        
        f1.add(l2);
-       l2.add(l1);
-       l2.add(t1);
-       l2.add(b1);
+       f1.add(l1);
+       f1.add(t1);
+       f1.add(b1);
 
        l1.setBounds(60,70,120,30);
        t1.setBounds(180,70,170,30);
