@@ -9,7 +9,7 @@ import java.awt.*;
 public class Searchparticipant
 {
     JFrame f1;
-    JLabel l1;
+    JLabel l1,l2;
     JTextField t1;
     JButton b1;
     Font fn1;
@@ -20,6 +20,8 @@ public class Searchparticipant
        t1=new JTextField(15);
        b1 = new JButton("ENTER");
        fn1=new Font("SansSerif", Font.BOLD, 20);
+       JLabel l2=new JLabel(new ImageIcon("/home/haseen/Downloads/search.jpg"));
+       f1.add(new JLabel(new ImageIcon("/home/haseen/Downloads/search.jpg")));
        
        f1.add(l1);
        f1.add(t1);
