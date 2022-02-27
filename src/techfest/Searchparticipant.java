@@ -21,11 +21,12 @@ public class Searchparticipant
        b1 = new JButton("ENTER");
        fn1=new Font("SansSerif", Font.BOLD, 20);
        JLabel l2=new JLabel(new ImageIcon("/home/haseen/Downloads/search.jpg"));
-       f1.add(new JLabel(new ImageIcon("/home/haseen/Downloads/search.jpg")));
+
        
-       f1.add(l1);
-       f1.add(t1);
-       f1.add(b1);
+       f1.add(l2);
+       l2.add(l1);
+       l2.add(t1);
+       l2.add(b1);
 
        l1.setBounds(60,70,120,30);
        t1.setBounds(180,70,170,30);
