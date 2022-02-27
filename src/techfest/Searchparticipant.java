@@ -1,7 +1,5 @@
 package techfest;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,27 +12,15 @@ public class Searchparticipant
     JLabel l1;
     JTextField t1;
     JButton b1;
-    ImageIcon im;
-    BufferedImage img;
-    Image dimg;
+    Font fn1;
     public Searchparticipant()
     {
        f1=new JFrame("SEARCH PARTICIPANT");
        l1=new JLabel("PARTICIPANT ID:");
        t1=new JTextField(15);
-       try
-        {
-            img = ImageIO.read(new File("/home/haseen/Downloads/search.jpg"));
-        } catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        dimg = img.getScaledInstance(1100, 650, Image.SCALE_SMOOTH);
-        im = new ImageIcon(dimg);
-
-        b1 = new JButton(im);
+       b1 = new JButton("ENTER");
+       fn1=new Font("SansSerif", Font.BOLD, 20);
        
-
        f1.add(l1);
        f1.add(t1);
        f1.add(b1);
