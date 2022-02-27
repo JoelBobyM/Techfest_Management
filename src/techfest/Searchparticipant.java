@@ -25,7 +25,7 @@ public class Searchparticipant
        try
         {
             img = ImageIO.read(new File("/home/haseen/Downloads/search.jpg"));
-        } catch (IOException e)
+        } catch(IOException e)
         {
             e.printStackTrace();
         }
