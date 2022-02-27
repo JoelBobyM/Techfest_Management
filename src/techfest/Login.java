@@ -1,23 +1,41 @@
 package techfest;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Login
 {
     JFrame f1;
-    JPanel p1,p2;
+    JPanel p2;
     JLabel l1,bg;
     Font fo1;
-    ImageIcon img;
+    ImageIcon im;
+
+    BufferedImage img;
+    Image dimg;
+
     public Login()
     {
         fo1 = new Font("SansSerif", Font.BOLD, 20);
         f1 = new JFrame("LOGIN");
         p2 = new JPanel();
         l1 = new JLabel("Choose Account Type");
-        img = new ImageIcon("/home/joelbobym/Documents/JAVA/Techfest_Management/bg.jpg");
-        bg = new JLabel("",img,JLabel.CENTER);
+        try
+        {
+            img = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/bg.jpg"));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        dimg = img.getScaledInstance(1100, 650, Image.SCALE_SMOOTH);
+
+        im = new ImageIcon(dimg);
+
+        bg = new JLabel("",im,JLabel.CENTER);
 
         bg.setBounds(0,0,1100,650);
 
