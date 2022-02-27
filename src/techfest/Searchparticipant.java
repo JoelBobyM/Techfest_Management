@@ -23,8 +23,10 @@ public class Searchparticipant
        f1.add(t1);
        f1.add(b1);
 
+       l1.setBounds(30,50,40,60);
+
        f1.setSize(400,400);
-       f1.setLayout(new FlowLayout());
+       f1.setLayout(null);
        f1.setVisible(true);
        f1.setDefaultCloseOperation(f1.EXIT_ON_CLOSE);
     }
