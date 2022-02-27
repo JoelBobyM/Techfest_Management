@@ -15,7 +15,6 @@ public class Login
     Font fo1;
     ImageIcon im;
     JRadioButton r1,r2;
-
     BufferedImage img;
     Image dimg;
 
