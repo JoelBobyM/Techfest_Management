@@ -4,7 +4,6 @@ public class Main
 {
     public static void main(String[] args)
     {
-        //Login L = new Login();
-        Searchparticipant S = new Searchparticipant();
+        Login L = new Login();
     }
 }
