@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+
 
 public class Login
 {
@@ -14,39 +14,40 @@ public class Login
     JLabel l1,bg;
     Font fo1;
     ImageIcon im;
-
+    JRadioButton r1,r2;
     BufferedImage img;
     Image dimg;
 
     public Login()
     {
-        fo1 = new Font("SansSerif", Font.BOLD, 20);
-        f1 = new JFrame("LOGIN");
-        p2 = new JPanel();
-        l1 = new JLabel("Choose Account Type");
         try
         {
+            fo1 = new Font("SansSerif", Font.BOLD, 20);
+            f1 = new JFrame("LOGIN");
+            p2 = new JPanel();
+            l1 = new JLabel("Choose Account Type");
             img = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/bg.jpg"));
-        } catch (IOException e)
+            dimg = img.getScaledInstance(1100, 650, Image.SCALE_SMOOTH);
+            im = new ImageIcon(dimg);
+            bg = new JLabel("",im,JLabel.CENTER);
+            r1 = new JRadioButton();
+
+        }
+        catch (Exception e)
         {
             e.printStackTrace();
         }
-        dimg = img.getScaledInstance(1100, 650, Image.SCALE_SMOOTH);
-
-        im = new ImageIcon(dimg);
-
-        bg = new JLabel("",im,JLabel.CENTER);
 
         bg.setBounds(0,0,1100,650);
-
         p2.setBounds(600,100,330,400);
-        p2.setBackground(Color.white);
+        l1.setBounds(10,20,250,25);
 
-        l1.setBounds(10,20,250,20);
+        l1.setForeground(Color.WHITE);
         l1.setFont(fo1);
 
-        p2.add(l1);
+        p2.setBackground(new Color(0,0,0,125));
 
+        p2.add(l1);
         f1.add(p2);
         f1.add(bg);
 
