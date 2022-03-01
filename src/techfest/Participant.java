@@ -69,7 +69,6 @@ public class Participant {
         l4.setFont(fo1);
 
        p1.setBackground(new Color(0,0,5,125));
-       p2.setBackground(new Color(30,17,5,100));
        
        p1.setBounds(0,0,190,650);
        p2.setBounds(200,0,950,650);
