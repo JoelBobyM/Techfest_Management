@@ -4,11 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.imageio.ImageIO;
 
 public class Participant {
     JFrame f1;
-    JPanel p1,p2,p3;
+    JPanel p1,p2,p3,p4,p5;
     JLabel l,l1,l2,l3,l4,l5,l6,l7,l8;
     JButton b1,b2,b3;
     public Participant()
@@ -17,6 +16,8 @@ public class Participant {
        p1=new JPanel();
        p2=new JPanel();
        p3=new JPanel();
+       p4=new JPanel();
+       p5=new JPanel();
        b1=new JButton("VIEW PROFILE");
        b2=new JButton("VIEW EVENT");
        b3=new JButton("REGISTERED EVENT");
