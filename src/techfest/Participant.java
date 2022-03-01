@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.imageio.ImageIO;
 
 public class Participant {
     JFrame f1;
