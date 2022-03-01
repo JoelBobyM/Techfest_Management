@@ -19,6 +19,7 @@ public class Participant {
     ImageIcon iipe;
     Image dimpe;
     BufferedImage impe;
+
     public Participant()
     {
         try
