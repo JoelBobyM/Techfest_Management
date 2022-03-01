@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Participant {
     JFrame f1;
-    JPanel p1,p2,p3;
+    JPanel p1,p2,p3,p4,p5;
     JLabel l,l1,l2,l3,l4,l5,l6,l7,l8;
     JButton b1,b2,b3;
     public Participant()
@@ -17,6 +17,8 @@ public class Participant {
        p1=new JPanel();
        p2=new JPanel();
        p3=new JPanel();
+       p4=new JPanel();
+       p5=new JPanel();
        b1=new JButton("VIEW PROFILE");
        b2=new JButton("VIEW EVENT");
        b3=new JButton("REGISTERED EVENT");
@@ -28,7 +30,6 @@ public class Participant {
        l5=new JLabel();l6=new JLabel();l7=new JLabel();l8=new JLabel();
        p1.setBackground(new Color(0,0,5,125));
        p2.setBackground(new Color(30,17,5,100));
-       p3.setBackground(new Color(0,10,40,110));
        
        p1.setBounds(0,0,190,600);
        p2.setBounds(200,0,490,600);
@@ -48,11 +49,12 @@ public class Participant {
        
        p1.add(b1);p1.add(b2);p1.add(b3);
        p3.add(l);p3.add(l1);p3.add(l2);p3.add(l3);p3.add(l4);p3.add(l5);p3.add(l6);p3.add(l7);p3.add(l8);
-       p2.add(p3);
        f1.add(p1);f1.add(p2);
 
        f1.setSize(600,600);
        p3.setVisible(false);
+       p4.setVisible(false);
+       p5.setVisible(false);
        f1.setLayout(null);
        p1.setLayout(null);
        p2.setLayout(null);
@@ -64,18 +66,15 @@ public class Participant {
        {
         public void actionPerformed(ActionEvent e)
         {
-            p3.setVisible(true);
-            p4.setVisible(false);
-            p5.setVisible(false);
+            p2.add(p3);
         }
        });
        b2.addActionListener(new ActionListener()
        {
         public void actionPerformed(ActionEvent e)
         {
-            p3.setVisible(false);
-            p4.setVisible(true);
-            p5.setVisible(false);
+            p2.removeAll();
+            p2.revalidate();p2.repaint();
         }
        });
     }
