@@ -28,7 +28,6 @@ public class Participant {
        l4=new JLabel("COLLEGE:");
        l5=new JLabel();l6=new JLabel();l7=new JLabel();l8=new JLabel();
        p1.setBackground(new Color(0,0,5,125));
-       p2.setBackground(new Color(30,17,5,100));
        
        p1.setBounds(0,0,190,600);
        p2.setBounds(200,0,490,600);
