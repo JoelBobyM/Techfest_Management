@@ -2,16 +2,11 @@ import techfest.*;
 
 public class Main
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-<<<<<<< HEAD
-        //Login L = new Login();
-        new Participant();
-
-        //new Volunteer();
-
-        //new Login();
-        //new Participant();
-        new Volunteer();
+        Connect c=new Connect();
+        c.create_Connect();
+        new Login();
+        
     }
 }

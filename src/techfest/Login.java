@@ -1,5 +1,5 @@
 package techfest;
-
+import java.sql.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -21,29 +21,35 @@ public class Login
     Image dimbg,dimpar,dimvol;
     ButtonGroup bgr;
     JButton b1,b2;
-    String role;
+    String role,username,password;
     JTextField t1;
     JPasswordField pf1;
-
-    public Login()
+    Connect c;
+    Statement s;
+    ResultSet r;
+    int p;
+    Boolean flag=true;
+    public Login() throws Exception
     {
         try
         {
+            c=new Connect();
+            s=c.return_statement();
             fo1 = new Font("SansSerif", Font.BOLD, 20);
             fo2 = new Font("Lobster", Font.BOLD, 50);
             f1 = new JFrame("LOGIN");
             p2 = new JPanel();
             l1 = new JLabel("Choose Account Type");
-            imbg = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/bg.jpg"));
+            imbg = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/bg.jpg"));
             dimbg = imbg.getScaledInstance(1100, 650, Image.SCALE_SMOOTH);
             iibg = new ImageIcon(dimbg);
             bg = new JLabel("",iibg,JLabel.CENTER);
-            impar = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/participant.png"));
+            impar = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/participant.png"));
             dimpar = impar.getScaledInstance(150,200,Image.SCALE_SMOOTH);
             iipar = new ImageIcon(dimpar);
             par = new JLabel("",iipar,JLabel.CENTER);
             r1 = new JRadioButton();
-            imvol = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/volunteer.png"));
+            imvol = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/volunteer.png"));
             dimvol = imvol.getScaledInstance(150,200,Image.SCALE_SMOOTH);
             iivol = new ImageIcon(dimvol);
             vol = new JLabel("",iivol,JLabel.CENTER);
@@ -79,8 +85,8 @@ public class Login
         l3.setFont(fo1);
 
         p2.setBackground(new Color(0,0,0,125));
-        r1.setBackground(new Color(0,0,0,0));
-        r2.setBackground(new Color(0,0,0,0));
+        r1.setBackground(new Color(0,0,0,15));
+        r2.setBackground(new Color(0,0,0,15));
         par.setBackground(Color.WHITE);
         vol.setBackground(Color.WHITE);
 
@@ -103,7 +109,6 @@ public class Login
 
         b1.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                 if(r1.isSelected())
@@ -119,6 +124,66 @@ public class Login
                 p2.repaint();
                 p2.validate();
                 addSecondPanel();
+            }
+        });
+        b2.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                try
+                {
+                    username=t1.getText();
+                    password=pf1.getText();
+                    if(role.equals("VOLUNTEER"))
+                    {
+                        r=s.executeQuery("select v_password from volunteer where vname="+username);
+                        while(r.next())
+                        {
+                            String p=r.getString(3);
+                            System.out.println(p);
+                            p=p.trim();
+                            if(password.equals(p))
+                            {
+                                flag=false;
+                            }
+                        }
+                        if(flag)
+                        {
+                             JOptionPane.showMessageDialog(null,"INCORRECT PASSWORD","Alert",JOptionPane.WARNING_MESSAGE);
+                        }
+                        else
+                        {
+                            new Volunteer();
+                        }
+                    }
+                    else if(role.equals("PARTICIPANT"))
+                    {
+                        r=s.executeQuery("select password from participant where pname="+username);
+                        while(r.next())
+                        {
+                            String p=r.getString(3);
+                            p=p.trim();
+                            if(password.equals(p))
+                            {
+                                flag=false;
+                            }
+                        }
+                        if(flag)
+                        {
+                             JOptionPane.showMessageDialog(null,"INCORRECT PASSWORD","Alert",JOptionPane.WARNING_MESSAGE);
+                        }
+                        else
+                        {
+                            new Participant();
+                        }
+                    }
+                    t1.setText("");
+                    pf1.setText("");
+                }
+                catch(Exception ex)
+                {
+                    ex.printStackTrace();
+                }
             }
         });
     }

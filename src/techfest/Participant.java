@@ -20,12 +20,8 @@ public class Participant {
     ImageIcon iipe;
     Image dimpe;
     BufferedImage impe;
-<<<<<<< HEAD
     JComboBox jcb;
     String[] options;
-=======
-
->>>>>>> 537c5c662ad974da25d40e2437a392916e2c7023
     public Participant()
     {
         try
@@ -156,7 +152,7 @@ public class Participant {
        p1.setLayout(null);
        p2.setLayout(null);
        p3.setLayout(null);
-       f1.setDefaultCloseOperation(f1.EXIT_ON_CLOSE);
+       //f1.setDefaultCloseOperation(f1.EXIT_ON_CLOSE);
        f1.setVisible(true);
 
        b1.addActionListener(new ActionListener()

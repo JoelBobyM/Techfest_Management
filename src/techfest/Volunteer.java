@@ -32,7 +32,7 @@ public class Volunteer
             f1 = new JFrame("VOLUNTEER");
             p1 = new JPanel();
             p2 = new JPanel();
-            impe = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/person.png"));
+            impe = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/person.png"));
             dimpe = impe.getScaledInstance(170, 140, Image.SCALE_SMOOTH);
             iipe = new ImageIcon(dimpe);
             pe = new JLabel(iipe);
@@ -106,8 +106,8 @@ public class Volunteer
         t3.setBounds(400,320,300,40);
         t4.setBounds(400,380,300,40);
         b4.setBounds(400,450,150,50);
-        l6.setBounds(25,100,450,30);
-        t5.setBounds(480,100,250,30);
+        l6.setBounds(25,100,500,30);
+        t5.setBounds(500,100,230,30);
         b5.setBounds(750,100,100,30);
         l7.setBounds(200,200,800,50);
         l8.setBounds(100,300,200,50);
@@ -132,12 +132,11 @@ public class Volunteer
         f1.setLayout(null);
         p1.setLayout(null);
         p2.setLayout(null);
-        f1.setDefaultCloseOperation(f1.EXIT_ON_CLOSE);
+        //f1.setDefaultCloseOperation(f1.EXIT_ON_CLOSE);
         f1.setVisible(true);
 
         b1.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                 p2.removeAll();
@@ -150,7 +149,6 @@ public class Volunteer
         });
         b2.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                 p2.removeAll();
@@ -161,7 +159,6 @@ public class Volunteer
         });
         b3.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                 p2.removeAll();
@@ -171,7 +168,6 @@ public class Volunteer
         });
         b4.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
 
@@ -179,7 +175,6 @@ public class Volunteer
         });
         b5.addActionListener(new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                 p2.add(l7);
