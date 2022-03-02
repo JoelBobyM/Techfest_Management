@@ -24,17 +24,16 @@ public class Login
     String role,username,password;
     JTextField t1;
     JPasswordField pf1;
-    Connect c;
-    Statement s;
-    ResultSet r;
+    Connection con;
+    PreparedStatement st;
     int p;
     Boolean flag=true;
     public Login() throws Exception
     {
         try
         {
-            c=new Connect();
-            s=c.return_statement();
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            con= DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","haseen","haseen");
             fo1 = new Font("SansSerif", Font.BOLD, 20);
             fo2 = new Font("Lobster", Font.BOLD, 50);
             f1 = new JFrame("LOGIN");
@@ -57,7 +56,7 @@ public class Login
             bgr = new ButtonGroup();
             b1 = new JButton("CONTINUE");
             b2 = new JButton("SIGN IN");
-            l2 = new JLabel("Name : ");
+            l2 = new JLabel("UserId : ");
             l3 = new JLabel("Password : ");
             t1 = new JTextField(15);
             pf1 = new JPasswordField(15);
@@ -113,11 +112,11 @@ public class Login
             {
                 if(r1.isSelected())
                 {
-                    role = "VOLUNTEER";
+                    role = "PARTICIPANT";
                 }
                 else if(r2.isSelected())
                 {
-                    role = "PARTICIPANT";
+                    role = "VOLUNTEER";
                 }
                 p2.removeAll();
                 p2.revalidate();
@@ -136,46 +135,50 @@ public class Login
                     password=pf1.getText();
                     if(role.equals("VOLUNTEER"))
                     {
-                        r=s.executeQuery("select v_password from volunteer where vname="+username);
-                        while(r.next())
+                       st = con.prepareStatement("SELECT * FROM VOLUNTEER WHERE V_ID=? AND V_PASSWORD=?");
+                       st.setString(1,username);
+                       st.setString(2,password);
+                       ResultSet rs = st.executeQuery();
+                       
+                       flag = false;
+                        if(rs.next())
                         {
-                            String p=r.getString(3);
-                            System.out.println(p);
-                            p=p.trim();
-                            if(password.equals(p))
-                            {
-                                flag=false;
-                            }
+                            System.out.println(rs.getString(1));
+                            System.out.println(rs.getString(3));
+                            flag=true;
                         }
                         if(flag)
                         {
-                             JOptionPane.showMessageDialog(null,"INCORRECT PASSWORD","Alert",JOptionPane.WARNING_MESSAGE);
+                            Volunteer v=new Volunteer();
                         }
                         else
                         {
-                            new Volunteer();
+                            JOptionPane.showMessageDialog(null,"INCORRECT PASSWORD","Alert",JOptionPane.WARNING_MESSAGE);    
                         }
+                            rs.close();
+                            st.close();
                     }
                     else if(role.equals("PARTICIPANT"))
                     {
-                        r=s.executeQuery("select password from participant where pname="+username);
-                        while(r.next())
+                        st = con.prepareStatement("SELECT * FROM PARTICIPANT WHERE P_ID=? AND PASSWORD=?");
+                        st.setString(1,username);
+                        st.setString(2,password);
+                        ResultSet rs = st.executeQuery();
+                        Boolean pflag = false;
+                        if(rs.next())
                         {
-                            String p=r.getString(3);
-                            p=p.trim();
-                            if(password.equals(p))
-                            {
-                                flag=false;
-                            }
+                            pflag = true;
                         }
-                        if(flag)
-                        {
-                             JOptionPane.showMessageDialog(null,"INCORRECT PASSWORD","Alert",JOptionPane.WARNING_MESSAGE);
+                        if(pflag)
+                        {   
+                            Participant p =new Participant(username);
                         }
                         else
                         {
-                            new Participant();
+                            JOptionPane.showMessageDialog(null,"INCORRECT PASSWORD","Alert",JOptionPane.WARNING_MESSAGE);
                         }
+                        rs.close();
+                        st.close();
                     }
                     t1.setText("");
                     pf1.setText("");

@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.*;
 
 public class Participant {
     JFrame f1;
@@ -21,11 +22,31 @@ public class Participant {
     Image dimpe;
     BufferedImage impe;
     JComboBox jcb;
+    String usid,username,clg;
+    int age;
     String[] options;
-    public Participant()
+
+    Connection con;
+    PreparedStatement pst;
+    Statement st;
+    ResultSet rs;
+
+    public Participant(String userid) throws Exception
     {
         try
         {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            con= DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","haseen","haseen");
+            pst = con.prepareStatement("SELECT PNAME FROM PARTICIPANT WHERE P_ID=?");
+            pst.setString(1,userid);
+            rs = pst.executeQuery();
+            rs.next();
+            username = rs.getString(1);
+            
+            usid = userid;
+            rs.close();
+            
+            username = "Joel";
             fo1 = new Font("SansSerif", Font.BOLD, 30);
             fo2 = new Font("Lobster", Font.BOLD, 50);
             fo3 = new Font("SansSerif", Font.BOLD, 20);
@@ -45,7 +66,7 @@ public class Participant {
             l2=new JLabel("ID : ");
             l3=new JLabel("AGE :");
             l4=new JLabel("COLLEGE :");
-            l5 = new JLabel("Hey........",JLabel.CENTER);
+            l5 = new JLabel("Hey "+username,JLabel.CENTER);
             l6=new JLabel("CHOOSE AN EVENT:");
             l7=new JLabel("EVENT ID:");
             l8=new JLabel("MENTOR:");
@@ -69,7 +90,7 @@ public class Participant {
             options=new String[]{"webinar","workshop","hackathon"};
             jcb=new JComboBox(options);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -165,6 +186,30 @@ public class Participant {
             p2.add(l);p2.add(l1);p2.add(l2);p2.add(l3);p2.add(l4);
             p2.add(t1);p2.add(t2);p2.add(t3);p2.add(t4);
             p2.add(b4);
+            try
+            {
+                pst = con.prepareStatement("SELECT * FROM PARTICIPANT WHERE P_ID=?");
+                pst.setString(1,usid);
+                rs = pst.executeQuery();
+                while(rs.next())
+                {
+                    username = rs.getString(2);
+                    age = rs.getInt(4);
+                    clg = rs.getString(5);
+
+                    t1.setText(username);
+                    t2.setText(usid);
+                    t3.setText(""+age);
+                    t4.setText(clg);
+
+                    p2.updateUI();
+                }
+                rs.close();
+            }
+            catch(Exception et)
+            {
+                et.printStackTrace();
+            }
         }
        });
        b2.addActionListener(new ActionListener()
