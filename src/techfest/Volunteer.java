@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.sql.*;
 public class Volunteer
 {
     JFrame f1;
@@ -17,15 +17,21 @@ public class Volunteer
     Image dimpe;
     BufferedImage impe;
     JLabel l0,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,pe;
-    JButton b1,b2,b3,b4,b5;
+    JButton b1,b2,b3,b4,b5,b6;
     JTextField t1,t2,t3,t4,t5;
     Font fo1,fo2,fo3;
     JRadioButton r1,r2,r3,r4;
     ButtonGroup bg1,bg2;
-    public Volunteer()
+    Connection con;
+    PreparedStatement st;
+    ResultSet rs;
+    String pid,e1,e2;
+    public Volunteer() throws Exception
     {
         try
         {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            con= DriverManager.getConnection("jdbc:oracle:thin:haseen/haseen@localhost:1521:xe");
             fo1 = new Font("SansSerif", Font.BOLD, 30);
             fo2 = new Font("Lobster", Font.BOLD, 50);
             fo3 = new Font("SansSerif", Font.BOLD, 20);
@@ -41,6 +47,7 @@ public class Volunteer
             b3=new JButton("SEARCH BY EVENT");
             b4 = new JButton("UPDATE");
             b5 = new JButton("SEARCH");
+            b6=new JButton("SUBMIT");
             l0=new JLabel("VOLUNTEER DETAILS");
             l1=new JLabel("NAME : ");
             l2=new JLabel("ID : ");
@@ -110,14 +117,15 @@ public class Volunteer
         t5.setBounds(500,100,230,30);
         b5.setBounds(750,100,100,30);
         l7.setBounds(200,200,800,50);
-        l8.setBounds(100,300,200,50);
+        l8.setBounds(100,300,350,50);
         l9.setBounds(100,350,200,50);
         r1.setBounds(300,350,100,50);
         r2.setBounds(300,400,100,50);
-        l10.setBounds(500,300,200,50);
+        l10.setBounds(500,300,350,50);
         l11.setBounds(500,350,200,50);
         r3.setBounds(700,350,100,50);
         r4.setBounds(700,400,100,50);
+        b6.setBounds(400,480,150,50);
 
         p1.setBackground(new Color(0,0,5,125));
 
@@ -186,7 +194,69 @@ public class Volunteer
                 p2.add(l11);
                 p2.add(r3);
                 p2.add(r4);
-                p2.updateUI();
+                p2.add(b6);
+                try
+                {
+                    e1="";
+                    e2="";
+                    pid=t5.getText();
+                    st=con.prepareStatement("SELECT ENAME FROM PARTICIPANT,EVENT WHERE EVENT1=E_ID AND P_ID=?");
+                    st.setString(1,pid);
+                    rs=st.executeQuery();
+                    while(rs.next())
+                    {
+                        e1=rs.getString(1);
+                        l8.setText("EVENT NAME : "+e1);
+                    }
+                    st=con.prepareStatement("SELECT ENAME FROM PARTICIPANT,EVENT WHERE EVENT2=E_ID AND P_ID=?");
+                    st.setString(1,pid);
+                    rs=st.executeQuery();
+                    while(rs.next())
+                    {
+                        e2=rs.getString(1);
+                        l10.setText("EVENT NAME : "+e2);
+                    }
+                    t5.setText("");
+                    p2.updateUI();
+                }
+                catch(Exception et)
+                {
+                    et.printStackTrace();
+                }
+            }
+        });
+        b6.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                try
+                {
+                    if(r1.isSelected())
+                    {
+                        st=con.prepareStatement("UPDATE ATTENDANCE SET A_E1='YES' WHERE P_ID=?");
+                    }
+                    else if(r2.isSelected())
+                    {
+                        st=con.prepareStatement("UPDATE ATTENDANCE SET A_E1='NO' WHERE P_ID=?");
+                    }
+                    st.setString(1,pid);
+                    rs=st.executeQuery();
+                    if(r3.isSelected())
+                    {
+                        st=con.prepareStatement("UPDATE ATTENDANCE SET A_E2='YES' WHERE P_ID=?");
+                    }
+                    else if(r4.isSelected())
+                    {
+                        st=con.prepareStatement("UPDATE ATTENDANCE SET A_E2='NO' WHERE P_ID=?");
+                    }
+                    st.setString(1,pid);
+                    rs=st.executeQuery();
+                    JOptionPane.showMessageDialog(null,"UPDATED","Message",JOptionPane.INFORMATION_MESSAGE);
+                }
+                catch(Exception et)
+                {
+                    et.printStackTrace();
+                }
             }
         });
     }

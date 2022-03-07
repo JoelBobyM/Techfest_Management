@@ -4,3 +4,5 @@
 /ojdbc8-full/
 /Techfest_Management.iml
 *.class
+src/META-INF
+src/oracle
