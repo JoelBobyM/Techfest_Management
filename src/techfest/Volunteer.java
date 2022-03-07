@@ -251,7 +251,7 @@ public class Volunteer
                     }
                     st.setString(1,pid);
                     rs=st.executeQuery();
-                    JOptionPane.showMessageDialog(null,"UPDATED","Message",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"UPDATED","MESSAGE",JOptionPane.INFORMATION_MESSAGE);
                 }
                 catch(Exception et)
                 {
