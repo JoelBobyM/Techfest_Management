@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.sql.*;
 
 public class Participant {
@@ -22,13 +21,12 @@ public class Participant {
     Image dimpe;
     BufferedImage impe;
     JComboBox jcb;
-    String usid,username,clg;
+    String usid,username,clg,ev,eid,mtr,bgtime;
     int age;
     String[] options;
 
     Connection con;
     PreparedStatement pst;
-    Statement st;
     ResultSet rs;
 
     public Participant(String userid) throws Exception
@@ -36,17 +34,14 @@ public class Participant {
         try
         {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            con= DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","haseen","haseen");
+            con= DriverManager.getConnection("jdbc:oracle:thin:joelbobym/408210@localhost:1521:xe");
             pst = con.prepareStatement("SELECT PNAME FROM PARTICIPANT WHERE P_ID=?");
             pst.setString(1,userid);
             rs = pst.executeQuery();
             rs.next();
             username = rs.getString(1);
-            
             usid = userid;
             rs.close();
-            
-            username = "Joel";
             fo1 = new Font("SansSerif", Font.BOLD, 30);
             fo2 = new Font("Lobster", Font.BOLD, 50);
             fo3 = new Font("SansSerif", Font.BOLD, 20);
@@ -83,11 +78,11 @@ public class Participant {
             t2 = new JTextField(50);
             t3 = new JTextField(50);
             t4 = new JTextField(50);
-            impe = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/person.png"));
+            impe = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/person.png"));
             dimpe = impe.getScaledInstance(170, 140, Image.SCALE_SMOOTH);
             iipe = new ImageIcon(dimpe);
             pe = new JLabel(iipe);
-            options=new String[]{"webinar","workshop","hackathon"};
+            options=new String[]{"","CYBER SECURITY WEBINAR","INTRODUCTION TO LINUX","GIT WORKSHOP","PYTHON WORKSHOP","HACKATHON"};
             jcb=new JComboBox(options);
         }
         catch (Exception e)
@@ -152,17 +147,17 @@ public class Participant {
        jcb.setBounds(200,100,500,30);
        l6.setBounds(50,100,170,30);
        b5.setBounds(730,100,80,30);
-       l7.setBounds(100,280,200,30);
-       l8.setBounds(100,340,200,30);
-       l9.setBounds(100,400,200,30);
+       l7.setBounds(100,280,500,30);
+       l8.setBounds(100,340,500,30);
+       l9.setBounds(100,400,500,30);
        l10.setBounds(180,180,800,60);
        jl1.setBounds(150,50,800,60);
-       jl2.setBounds(50,180,200,30);
+       jl2.setBounds(50,180,500,30);
        jl3.setBounds(50,240,200,30);
-       jl4.setBounds(50,300,200,30);
-       jl5.setBounds(450,180,200,30);
-       jl6.setBounds(450,240,200,30);
-       jl7.setBounds(450,300,200,30);
+       jl4.setBounds(50,300,500,30);
+       jl5.setBounds(500,180,500,30);
+       jl6.setBounds(500,240,200,30);
+       jl7.setBounds(500,300,500,30);
 
        p1.add(pe);p1.add(l5);p1.add(b1);p1.add(b2);p1.add(b3);
 
@@ -199,6 +194,7 @@ public class Participant {
 
                     t1.setText(username);
                     t2.setText(usid);
+                    t2.setEditable(false);
                     t3.setText(""+age);
                     t4.setText(clg);
 
@@ -230,12 +226,73 @@ public class Participant {
                p2.revalidate();
                p2.setBounds(200,0,910,650);
                p2.add(jl1);p2.add(jl2);p2.add(jl3);p2.add(jl4);p2.add(jl5);p2.add(jl6);p2.add(jl7);
+
+               try
+               {
+                   pst = con.prepareStatement("SELECT ENAME,BEGIN_TIME,MENTOR FROM PARTICIPANT, EVENT WHERE EVENT1 = E_ID AND P_ID = ?");
+                   pst.setString(1,usid);
+                   rs  = pst.executeQuery();
+                   while(rs.next())
+                   {
+                       ev = rs.getString(1);
+                       bgtime = rs.getString(2);
+                       mtr = rs.getString("MENTOR");
+                   }
+                   jl2.setText("EVENT NAME : "+ev);
+                   jl3.setText("TIME : "+bgtime);
+                   jl4.setText("MENTOR : "+mtr);
+                   pst = con.prepareStatement("SELECT ENAME,BEGIN_TIME,MENTOR FROM PARTICIPANT, EVENT WHERE EVENT2 = E_ID AND P_ID = ?");
+                   pst.setString(1,usid);
+                   rs  = pst.executeQuery();
+                   while(rs.next())
+                   {
+                       ev = rs.getString(1);
+                       bgtime = rs.getString(2);
+                       mtr = rs.getString("MENTOR");
+                   }
+                   jl5.setText("EVENT NAME : "+ev);
+                   jl6.setText("TIME : "+bgtime);
+                   jl7.setText("MENTOR : "+mtr);
+               }
+               catch (SQLException ex)
+               {
+                   ex.printStackTrace();
+               }
+
+
            }
        });
        b4.addActionListener(new ActionListener()
        {
            public void actionPerformed(ActionEvent e)
            {
+               username = t1.getText();
+               usid = t2.getText();
+               age = Integer.parseInt(t3.getText());
+               clg = t4.getText();
+               try
+               {
+                   pst = con.prepareStatement("UPDATE PARTICIPANT SET PNAME=?,AGE=?,COLLEGE=? WHERE P_ID=?");
+                   pst.setString(1,username);
+                   pst.setInt(2,age);
+                   pst.setString(3,clg);
+                   pst.setString(4,usid);
+                   rs  = pst.executeQuery();
+                   if(rs.next())
+                   {
+                       JOptionPane.showMessageDialog(null,"SUCCESSFULLY UPDATED","MESSAGE",JOptionPane.WARNING_MESSAGE);
+                   }
+                   p1.remove(l5);
+                   l5.setText("Hey "+username);
+                   p1.add(l5);
+                   p1.revalidate();
+
+               }
+               catch (SQLException ex)
+               {
+                   ex.printStackTrace();
+               }
+
 
            }
        });
@@ -245,6 +302,27 @@ public class Participant {
            {
              p2.add(l7);p2.add(l8);p2.add(l9);p2.add(l10);
              p2.updateUI();
+             try
+             {
+                 ev = (String) jcb.getSelectedItem();
+                 pst = con.prepareStatement("SELECT * FROM EVENT WHERE ENAME = ?");
+                 pst.setString(1,ev);
+                 rs = pst.executeQuery();
+                 while(rs.next())
+                 {
+                     eid = rs.getString(1);
+                     mtr = rs.getString(3);
+                     bgtime = rs.getString(4);
+                 }
+                 l7.setText("EVENT ID : "+eid);
+                 l8.setText("MENTOR : "+mtr);
+                 l9.setText(("SCHEDULED TIME : "+bgtime));
+             }
+             catch (SQLException ex)
+             {
+                   ex.printStackTrace();
+
+             }
            }
        });
     }

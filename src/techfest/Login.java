@@ -20,7 +20,7 @@ public class Login
     BufferedImage imbg,impar,imvol;
     Image dimbg,dimpar,dimvol;
     ButtonGroup bgr;
-    JButton b1,b2;
+    JButton b1,b2,b3;
     String role,username,password;
     JTextField t1;
     JPasswordField pf1;
@@ -33,22 +33,22 @@ public class Login
         try
         {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            con= DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","haseen","haseen");
+            con= DriverManager.getConnection("jdbc:oracle:thin:joelbobym/408210@localhost:1521:xe");
             fo1 = new Font("SansSerif", Font.BOLD, 20);
             fo2 = new Font("Lobster", Font.BOLD, 50);
             f1 = new JFrame("LOGIN");
             p2 = new JPanel();
             l1 = new JLabel("Choose Account Type");
-            imbg = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/bg.jpg"));
+            imbg = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/bg.jpg"));
             dimbg = imbg.getScaledInstance(1100, 650, Image.SCALE_SMOOTH);
             iibg = new ImageIcon(dimbg);
             bg = new JLabel("",iibg,JLabel.CENTER);
-            impar = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/participant.png"));
+            impar = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/participant.png"));
             dimpar = impar.getScaledInstance(150,200,Image.SCALE_SMOOTH);
             iipar = new ImageIcon(dimpar);
             par = new JLabel("",iipar,JLabel.CENTER);
             r1 = new JRadioButton();
-            imvol = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/volunteer.png"));
+            imvol = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/volunteer.png"));
             dimvol = imvol.getScaledInstance(150,200,Image.SCALE_SMOOTH);
             iivol = new ImageIcon(dimvol);
             vol = new JLabel("",iivol,JLabel.CENTER);
@@ -56,6 +56,7 @@ public class Login
             bgr = new ButtonGroup();
             b1 = new JButton("CONTINUE");
             b2 = new JButton("SIGN IN");
+            b3 = new JButton("< BACK");
             l2 = new JLabel("UserId : ");
             l3 = new JLabel("Password : ");
             t1 = new JTextField(15);
@@ -84,8 +85,8 @@ public class Login
         l3.setFont(fo1);
 
         p2.setBackground(new Color(0,0,0,125));
-        r1.setBackground(new Color(0,0,0,15));
-        r2.setBackground(new Color(0,0,0,15));
+        r1.setBackground(new Color(0,0,0,0));
+        r2.setBackground(new Color(0,0,0,0));
         par.setBackground(Color.WHITE);
         vol.setBackground(Color.WHITE);
 
@@ -139,24 +140,21 @@ public class Login
                        st.setString(1,username);
                        st.setString(2,password);
                        ResultSet rs = st.executeQuery();
-                       
                        flag = false;
-                        if(rs.next())
-                        {
-                            System.out.println(rs.getString(1));
-                            System.out.println(rs.getString(3));
-                            flag=true;
-                        }
+                       if(rs.next())
+                       {
+                            flag = true;
+                       }
                         if(flag)
                         {
-                            Volunteer v=new Volunteer();
+                            Volunteer v = new Volunteer();
                         }
                         else
                         {
                             JOptionPane.showMessageDialog(null,"INCORRECT PASSWORD","Alert",JOptionPane.WARNING_MESSAGE);    
                         }
-                            rs.close();
-                            st.close();
+                        rs.close();
+                        st.close();
                     }
                     else if(role.equals("PARTICIPANT"))
                     {
@@ -164,14 +162,14 @@ public class Login
                         st.setString(1,username);
                         st.setString(2,password);
                         ResultSet rs = st.executeQuery();
-                        Boolean pflag = false;
+                        flag = false;
                         if(rs.next())
                         {
-                            pflag = true;
+                            flag = true;
                         }
-                        if(pflag)
+                        if(flag)
                         {   
-                            Participant p =new Participant(username);
+                            Participant p = new Participant(username);
                         }
                         else
                         {
@@ -189,6 +187,18 @@ public class Login
                 }
             }
         });
+
+        b3.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                p2.removeAll();
+                p2.revalidate();
+                p2.repaint();
+                p2.validate();
+                addFirstPanel();
+            }
+        });
     }
     void addSecondPanel()
     {
@@ -199,11 +209,12 @@ public class Login
         l1.setFont(fo2);
 
         l1.setBounds(10,30,250,65);
-        l2.setBounds(10,135,100,30);
-        t1.setBounds(100,135,200,30);
-        l3.setBounds(10,185,120,30);
-        pf1.setBounds(130,185,170,30);
-        b2.setBounds(115,255,100,25);
+        l2.setBounds(10,145,100,30);
+        t1.setBounds(100,145,200,30);
+        l3.setBounds(10,205,120,30);
+        pf1.setBounds(130,205,170,30);
+        b2.setBounds(200,255,100,35);
+        b3.setBounds(20,255,100,35);
 
         p2.add(l1);
         p2.add(l2);
@@ -211,5 +222,27 @@ public class Login
         p2.add(l3);
         p2.add(pf1);
         p2.add(b2);
+        p2.add(b3);
+    }
+    void addFirstPanel()
+    {
+        p2.setBounds(600,100,330,400);
+
+        l1.setText("Choose Account Type");
+        l1.setFont(fo1);
+
+        l1.setBounds(10,20,250,25);
+        par.setBounds(10,100,150,200);
+        r1.setBounds(80,300,20,20);
+        vol.setBounds(160,100,150,200);
+        r2.setBounds(230,300,20,20);
+        b1.setBounds(200,350,100,25);
+
+        p2.add(par);
+        p2.add(r1);
+        p2.add(vol);
+        p2.add(r2);
+        p2.add(l1);
+        p2.add(b1);
     }
 }
