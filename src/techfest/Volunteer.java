@@ -17,7 +17,7 @@ public class Volunteer
     Image dimpe;
     BufferedImage impe;
     JLabel l0,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,pe;
-    JButton b1,b2,b3,b4,b5,b6;
+    JButton b1,b2,b4,b5,b6;
     JTextField t1,t2,t3,t4,t5;
     Font fo1,fo2,fo3;
     JRadioButton r1,r2,r3,r4;
@@ -25,35 +25,40 @@ public class Volunteer
     Connection con;
     PreparedStatement st;
     ResultSet rs;
-    String pid,e1,e2;
-    public Volunteer() throws Exception
+    String pid,e1,e2,userid,username;
+    public Volunteer(String userid) throws Exception
     {
         try
         {
+            this.userid = userid;
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            con= DriverManager.getConnection("jdbc:oracle:thin:haseen/haseen@localhost:1521:xe");
+            con= DriverManager.getConnection("jdbc:oracle:thin:joelbobym/408210@localhost:1521:xe");
+            st = con.prepareStatement("SELECT VNAME FROM VOLUNTEER WHERE V_ID=?");
+            st.setString(1,userid);
+            rs = st.executeQuery();
+            rs.next();
+            username = rs.getString(1);
             fo1 = new Font("SansSerif", Font.BOLD, 30);
             fo2 = new Font("Lobster", Font.BOLD, 50);
             fo3 = new Font("SansSerif", Font.BOLD, 20);
             f1 = new JFrame("VOLUNTEER");
             p1 = new JPanel();
             p2 = new JPanel();
-            impe = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/person.png"));
+            impe = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/person.png"));
             dimpe = impe.getScaledInstance(170, 140, Image.SCALE_SMOOTH);
             iipe = new ImageIcon(dimpe);
             pe = new JLabel(iipe);
             b1=new JButton("VIEW PROFILE");
             b2=new JButton("SEARCH BY ID");
-            b3=new JButton("SEARCH BY EVENT");
             b4 = new JButton("UPDATE");
             b5 = new JButton("SEARCH");
-            b6=new JButton("SUBMIT");
+            b6=new JButton("UPDATE");
             l0=new JLabel("VOLUNTEER DETAILS");
             l1=new JLabel("NAME : ");
             l2=new JLabel("ID : ");
             l3=new JLabel("AGE :");
             l4=new JLabel("DEPT & CLASS :");
-            l5 = new JLabel("Hey.....",JLabel.CENTER);
+            l5 = new JLabel("Hey "+username,JLabel.CENTER);
             t1 = new JTextField(50);
             t2 = new JTextField(50);
             t3 = new JTextField(50);
@@ -102,7 +107,6 @@ public class Volunteer
         l5.setBounds(10,150,190,30);
         b1.setBounds(0,200,190,50);
         b2.setBounds(0,270,190,50);
-        b3.setBounds(0,340,190,50);
         l0.setBounds(150,100,800,60);
         l1.setBounds(150,200,200,40);
         l2.setBounds(150,260,200,40);
@@ -117,10 +121,10 @@ public class Volunteer
         t5.setBounds(500,100,230,30);
         b5.setBounds(750,100,100,30);
         l7.setBounds(200,200,800,50);
-        l8.setBounds(100,300,350,50);
-        l9.setBounds(100,350,200,50);
-        r1.setBounds(300,350,100,50);
-        r2.setBounds(300,400,100,50);
+        l8.setBounds(25,300,450,50);
+        l9.setBounds(25,350,200,50);
+        r1.setBounds(225,350,100,50);
+        r2.setBounds(225,400,100,50);
         l10.setBounds(500,300,350,50);
         l11.setBounds(500,350,200,50);
         r3.setBounds(700,350,100,50);
@@ -128,8 +132,9 @@ public class Volunteer
         b6.setBounds(400,480,150,50);
 
         p1.setBackground(new Color(0,0,5,125));
+        t2.setEditable(false);
 
-        p1.add(pe);p1.add(l5);p1.add(b1);p1.add(b2);p1.add(b3);
+        p1.add(pe);p1.add(l5);p1.add(b1);p1.add(b2);
         f1.add(p1);
         f1.add(pe);
         f1.add(p2);
@@ -153,6 +158,23 @@ public class Volunteer
                 p2.add(l0);p2.add(l1);p2.add(l2);p2.add(l3);p2.add(l4);
                 p2.add(t1);p2.add(t2);p2.add(t3);p2.add(t4);
                 p2.add(b4);
+                try
+                {
+                    st = con.prepareStatement("SELECT * FROM VOLUNTEER WHERE V_ID=?");
+                    st.setString(1,userid);
+                    rs = st.executeQuery();
+                    while(rs.next())
+                    {
+                        t1.setText(rs.getString("VNAME"));
+                        t2.setText(rs.getString("V_ID"));
+                        t3.setText(String.valueOf(rs.getInt("AGE")));
+                        t4.setText(rs.getString("CLASS"));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
             }
         });
         b2.addActionListener(new ActionListener()
@@ -165,19 +187,27 @@ public class Volunteer
                 p2.add(l6); p2.add(t5); p2.add(b5);
             }
         });
-        b3.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                p2.removeAll();
-                p2.revalidate();
-                p2.setBounds(200,0,910,650);
-            }
-        });
         b4.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
+                try
+                {
+                    st = con.prepareStatement("UPDATE VOLUNTEER SET VNAME=?,AGE=?,CLASS=? WHERE V_ID=?");
+                    st.setString(1,t1.getText());
+                    st.setInt(2, Integer.parseInt(t3.getText()));
+                    st.setString(3,t4.getText());
+                    st.setString(4,t2.getText());
+                    rs = st.executeQuery();
+                    if(rs.next())
+                    {
+                        JOptionPane.showMessageDialog(null,"SUCCESSFULLY UPDATED","MESSAGE",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
 
             }
         });
@@ -197,8 +227,6 @@ public class Volunteer
                 p2.add(b6);
                 try
                 {
-                    e1="";
-                    e2="";
                     pid=t5.getText();
                     st=con.prepareStatement("SELECT ENAME FROM PARTICIPANT,EVENT WHERE EVENT1=E_ID AND P_ID=?");
                     st.setString(1,pid);
@@ -216,7 +244,6 @@ public class Volunteer
                         e2=rs.getString(1);
                         l10.setText("EVENT NAME : "+e2);
                     }
-                    t5.setText("");
                     p2.updateUI();
                 }
                 catch(Exception et)

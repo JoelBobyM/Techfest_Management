@@ -280,7 +280,7 @@ public class Participant {
                    rs  = pst.executeQuery();
                    if(rs.next())
                    {
-                       JOptionPane.showMessageDialog(null,"SUCCESSFULLY UPDATED","MESSAGE",JOptionPane.WARNING_MESSAGE);
+                       JOptionPane.showMessageDialog(null,"SUCCESSFULLY UPDATED","MESSAGE",JOptionPane.INFORMATION_MESSAGE);
                    }
                    p1.remove(l5);
                    l5.setText("Hey "+username);

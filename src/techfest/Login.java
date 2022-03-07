@@ -33,22 +33,22 @@ public class Login
         try
         {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            con= DriverManager.getConnection("jdbc:oracle:thin:haseen/haseen@localhost:1521:xe");
+            con= DriverManager.getConnection("jdbc:oracle:thin:joelbobym/408210@localhost:1521:xe");
             fo1 = new Font("SansSerif", Font.BOLD, 20);
             fo2 = new Font("Lobster", Font.BOLD, 50);
             f1 = new JFrame("LOGIN");
             p2 = new JPanel();
             l1 = new JLabel("Choose Account Type");
-            imbg = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/bg.jpg"));
+            imbg = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/bg.jpg"));
             dimbg = imbg.getScaledInstance(1100, 650, Image.SCALE_SMOOTH);
             iibg = new ImageIcon(dimbg);
             bg = new JLabel("",iibg,JLabel.CENTER);
-            impar = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/participant.png"));
+            impar = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/participant.png"));
             dimpar = impar.getScaledInstance(150,200,Image.SCALE_SMOOTH);
             iipar = new ImageIcon(dimpar);
             par = new JLabel("",iipar,JLabel.CENTER);
             r1 = new JRadioButton();
-            imvol = ImageIO.read(new File("/home/haseen/Documents/java/Techfest_Management/img-src/volunteer.png"));
+            imvol = ImageIO.read(new File("/home/joelbobym/Documents/JAVA/Techfest_Management/img-src/volunteer.png"));
             dimvol = imvol.getScaledInstance(150,200,Image.SCALE_SMOOTH);
             iivol = new ImageIcon(dimvol);
             vol = new JLabel("",iivol,JLabel.CENTER);
@@ -147,7 +147,7 @@ public class Login
                        }
                         if(flag)
                         {
-                            Volunteer v = new Volunteer();
+                            Volunteer v = new Volunteer(username);
                         }
                         else
                         {
