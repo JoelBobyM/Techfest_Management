@@ -26,6 +26,7 @@ public class Volunteer
     PreparedStatement st;
     ResultSet rs;
     String pid,e1,e2,userid,username;
+    CallableStatement cst;
     public Volunteer(String userid) throws Exception
     {
         try
@@ -258,27 +259,27 @@ public class Volunteer
             {
                 try
                 {
+                    cst = con.prepareCall("{CALL UPSERT(?,?,?)}");
                     if(r1.isSelected())
                     {
-                        st=con.prepareStatement("UPDATE ATTENDANCE SET A_E1='YES' WHERE P_ID=?");
+                        cst.setString(1,"YES");
                     }
                     else if(r2.isSelected())
                     {
-                        st=con.prepareStatement("UPDATE ATTENDANCE SET A_E1='NO' WHERE P_ID=?");
+                        cst.setString(1,"NO");
                     }
-                    st.setString(1,pid);
-                    rs=st.executeQuery();
                     if(r3.isSelected())
                     {
-                        st=con.prepareStatement("UPDATE ATTENDANCE SET A_E2='YES' WHERE P_ID=?");
+                        cst.setString(2,"YES");
                     }
                     else if(r4.isSelected())
                     {
-                        st=con.prepareStatement("UPDATE ATTENDANCE SET A_E2='NO' WHERE P_ID=?");
+                        cst.setString(2,"NO");
                     }
-                    st.setString(1,pid);
-                    rs=st.executeQuery();
-                    JOptionPane.showMessageDialog(null,"UPDATED","MESSAGE",JOptionPane.INFORMATION_MESSAGE);
+                    cst.setString(3,pid);
+                    int p = cst.executeUpdate();
+                    if(p>0)
+                        JOptionPane.showMessageDialog(null,"UPDATED","MESSAGE",JOptionPane.INFORMATION_MESSAGE);
                 }
                 catch(Exception et)
                 {
